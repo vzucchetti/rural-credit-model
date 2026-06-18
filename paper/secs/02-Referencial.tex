@@ -1,0 +1,48 @@
+\chapter{Referencial Teórico} \label{chap:referencial}
+
+\section{Business Intelligence e Analytics}
+
+Business Intelligence (BI) pode ser defino como um conjunto de processos, arquiteturas, tecnologias e ferramentas destinados a transformar dados brutos em informações estruturadas, trazendo um contexto analítico para apoiar a tomada de decisões estratégicas em diferentes níveis organizacionais \cite{kimball&ross2013}. A infraestrutura de BI tipicamente compreende um pipeline de dados que move informações para ambientes de análise — data warehouses ou data lakes — onde são integradas, limpas e modeladas em esquemas dimensionais ou relacionais, facilitando a consulta e exploração por meio de ferramentas de visualização, dashboards e relatórios gerenciais.
+
+Analytics, por sua vez, abrange um contínuo analítico mais amplo, que \cite{davenport&jeanne2007} organizam em quatro níveis progressivos de sotisficação:
+\begin{itemize}
+    \item[(i)] \textbf{Analytics Descritivo} — voltado para a síntese do que aconteceu por meio de relatórios e visualizações históricas;
+    \item[(ii)] \textbf{Analytics Diagnóstico} — orientado à investigação das causas de eventos observados;
+    \item[(iii)] \textbf{Analytics Preditivo} — emprega modelos estatísticos e de aprendizagem de máquina para estimar probabilidades de ocorrências futuras;
+    \item[(iv)] \textbf{Analytics Prescritivo} — recomenda ações ótimas com base nos modelos preditivos construídos.
+\end{itemize}
+No contexto financeiro, o Analytics Preditivo tem sido o nível de maior aplicação prática, especialmente em modelagem de risco de crédito, detecção de fraudes e gestão de portfólios.
+
+\section{Modelagem de Risco de Crédito}
+
+O risco de crédito, de forma abrangente, refere-se à probabilidade de uma contraparte não honrar suas obrigações financeiras contratuais, resultando em perdas para o credor. Os principais componentes do risco de crédito, conforme estabelecido pelos Acordos de Basileia (\cite{bcbs2004}), incluem:
+\begin{itemize}
+    \item[(i)]  \textbf{Probabilidade de \textit{Default} (PD)} — mensura a chance de um cliente inadimplir em um horizonte de tempo específico;
+    \item[(ii)] \textbf{Perda Dado o \textit{Default} (\textit{Loss Given Default} - LGD)} — representa a fração do valor exposto que não será recuperada em caso de inadimplência.
+    \item[(iii)] \textbf{Exposição no Momento do \textit{Default} (\textit{Exposure at Default} - EAD)} — quantifica o valor em risco no momento do evento de inadimplência.
+    \item[]
+\end{itemize}
+
+A modelagem quantitativa do risco de crédito tem raízes no trabalho de \cite{altman1968}, que introduziu a aplicação de análise discriminante múltipla para prever falências corporativas a partir de indicadores financeiros. Subsequentemente, \cite{merton1974} desenvolveu um modelo estrutural ancorado na teoria de precificação de opções, no qual o \textit{default} de uma empresa ocorre quando o valor de seus ativos cai abaixo do valor de suas dívidas — modelo que fundamenta uma geração de abordagens baseadas no valor de mercado das empresas. Essas contribuições fundacionais estabeleceram as bases teóricas para o que viria a se tornar o \textit{credit scoring} moderno.
+
+O \textit{credit scoring} é caracterizado pela construção de modelos estatísticos que atribuem escores numéricos a tomadores de crédito com base em suas características observáveis, constituindo a abordagem dominante para discriminar bons e maus pagadores no crédito de varejo e empresarial (\cite{siddiqi2006}). Os métodos aplicados variam desde a regressão logística — amplamente adotado pela sua interpretabilidade e aceitação regulatória — até técnicas mais complexas como florestas aleatórias (\textit{Random Forests}), \textit{Gradient Boosting} e redes neurais (\cite{breiman2001}, \cite{friedman2001}). As abordagens de aprendizagem de máquina mais recentes têm demostrado ganhos expressivos em poder preditivo, especialmente em contextos de dados de alta dimensionalidade, mas apresentam desafios em relação à interpretabilidade e à conformidade regulatória, tema abordado com crescente relevância no setor financeiro.
+
+Embora o arcabouco de Basileia (\cite{bcbs2004}) defina o risco de crédito em termos de PD, LGD e EAD, este projeto restringe-se a modelagem da Probabilidade de \textit{Default} (PD). A escolha decorre da natureza dos microdados do SICOR, organizados por operação e adequados a estimativa da PD em nível de segmento/operação, e não da idoneidade individual do tomador como em um \textit{bureau} de crédito. A estimativa da LGD e EAD fica indicada como extensão futura.
+
+\subsection{Modelos de Risco Agnósticos}
+
+Denomina-se agnóstico, neste trabalho, o modelo de risco construido sem dependência de histórico comportamental interno do tomador, calibrado a partir de dados externos e regulatórios que descrevem a operacao, o segmento e o ambiente macro-setorial. Tal abordagem responde ao problema de \textit{cold-start} enfrentado por instituições entrantes, nas quais a assimetria de informação (\cite{akerlof1970}, \cite{stiglitz1981}) impede o uso de \textit{scorecards} convencionais baseados em comportamento próprio (\cite{hand&henley1997}). Cabe distinguir, nesse sentido, o agnóstico quanto a origem dos dados, do conceito técnico de interpretabilidade \textit{model-agnostic} (\cite{lundberg&lee2017}), empregado adiante para explicar modelos não-lineares.
+
+\subsection{Modelos de Regressão Logística}
+
+A regressão logística modela a probabilidade de inadimplência como uma função logística de uma combinação linear das variáveis explicativas, produzindo estimativas de PD no intervalo (0,1). Sua ampla adoção em \textit{credit scoring} decorre da interpretabilidade dos coeficientes e da aceitação regulatória (\cite{hand&henley1997}, \cite{thomasetal2002}), o que a torna referência natural como modelo interpretável em aplicações de crédito (\cite{siddiqi2006}). Neste projeto, ela é empregada como benchmark interpretável intermediário entre o modelo de referência naive e modelos não-lineares de maior capacidade preditiva.
+
+\section{Crédito Rural}
+
+O crédito rural foi institucionalizado pela Lei nº 4.829/1965, que estruturou o Sistema Nacional de Credito Rural (SNCR). Suas condicoes operacionais — modalidades (custeio, investimento, comercializacao e industrializacao), fontes (recursos controlados e livres) e programas (Plano Safra, Pronaf, entre outros) — são normatizadas pelo Manual de Credito Rural (MCR) do Banco Central. A garantia da atividade agropecuária opera por meio do Proagro. A literatura de financas agricolas (\cite{barry&ellinger2011}, \cite{turvey1991}) destaca que esse segmento exige variáveis específicas — ciclo produtivo, clima e preços de \textit{commodities} — distintas das do crédito comercial convencional.
+
+\section{SICOR - Bacen}
+
+O Banco Central do Brasil (Bacen) tem como atribuição institucional a regulação e supervisão do Sistema Financeiro Nacional (SFN), incluindo a normatização e o monitoramento das operações das operações de crédito rural. Por meio da Resolução n.º 4.696, de 2021 e do Manual de Crédito Rural (MCR), o Bacen exige que as instituições financeiras reportem, de forma padronizada por meio do SICOR, todas as operações de crédito rural contratadas no terrtório nacional. Os microdados do SICOR abrangem uma gama de variáveis como: CPF/CNPJ do beneficiário, município e estado, tipo de empreendimento (cultura, atividade ou produto financiado), safra, finalidade da operação (custeio, investimento, comercialização ou industrialização), valor contratado, prazo da operação, taxa de juros, e ocorrências de solicitações de seguro Proagro ou de inadimplência.
+
+Essa base de dados, publicamente disponibilizada  para acesso no portal de Dados Abertos do Bacen, representa uma das fontes mais abrangentes de microdados estruturados sobre crédito rual no Brasil, cobrindo operações a partir do ano de 2013. Seu uso para fins acadêmicos e de inteligência de negócios é subutilizado em relação ao seu potencial analítico. A disponibilidade, granularidade e a cobertura temporal desses dados fazem do SICOR um ativo informacional de primeira ordem para a construção de modelos de risco agnóstico.

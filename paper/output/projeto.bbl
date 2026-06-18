@@ -1,0 +1,102 @@
+\begin{thebibliography}{{Bas}04}
+\pretolerance=2500
+\hyphenpenalty=10000
+\tolerance=200
+\emergencystretch=15em
+\newcommand{\enquote}[1]{``#1''}
+\providecommand{\urlprefix}{\bblcaptured}
+\providecommand{\selectlanguage}[1]{\relax}
+\newcommand{\Capitalize}[1]{\uppercase{#1}}
+\newcommand{\capitalize}[1]{\expandafter\Capitalize#1}
+\providecommand{\bibAnnoteFile}[1]{%
+  \IfFileExists{#1}{\begin{quotation}\noindent\textsc{Key:} #1\\
+  \textsc{Annotation:}\ \input{#1}\end{quotation}}{}}
+\providecommand{\bibAnnote}[2]{%
+  \begin{quotation}\noindent\textsc{Key:} #1\\
+  \textsc{Annotation:}\ #2\end{quotation}}
+\providecommand{\eprint}[2][]{#2}
+
+\bibitem[Alt68]{altman1968}
+Altman, E.~I. \enquote{Financial ratios, discriminant analysis and the
+  prediction of corporate bankruptcy}, \textit{The Journal of Finance},
+  \bblvol{}~23--4, 1968, \bblpp{} 589--609.
+\bibAnnoteFile{altman1968}
+
+\bibitem[{Bas}04]{bcbs2004}
+{Basel Committee on Banking Supervision}. \enquote{International convergence of
+  capital measurement and capital standards: A revised framework (basel ii)},
+  2004.
+\bibAnnoteFile{bcbs2004}
+
+\bibitem[BE11]{barry&ellinger2011}
+Barry, P.~J.; Ellinger, P.~N. \enquote{Financial Management in Agriculture}.
+  Upper Saddle River, NJ: Pearson Education, 2011, 408\bbleidpp{}.
+\bibAnnoteFile{barry&ellinger2011}
+
+\bibitem[Bre01]{breiman2001}
+Breiman, L. \enquote{Random forests}, \textit{Machine Learning},
+  \bblvol{}~45--1, 2001, \bblpp{} 5--32.
+\bibAnnoteFile{breiman2001}
+
+\bibitem[CG16]{chen&guestrin2016}
+Chen, T.; Guestrin, C. \enquote{Xgboost: A scalable tree boosting system}.
+  \capitalize{\bblin{}}: Proceedings of the 22nd ACM SIGKDD International
+  Conference on Knowledge Discovery and Data Mining, 2016, \bblpp{} 785--794.
+\bibAnnoteFile{chen&guestrin2016}
+
+\bibitem[DH07]{davenport&jeanne2007}
+Davenport, T.~H.; Harris, J.~G. \enquote{Competing on Analytics: The New
+  Science of Winning}. Boston, MA: Harvard Business School Press, 2007,
+  218\bbleidpp{}.
+\bibAnnoteFile{davenport&jeanne2007}
+
+\bibitem[Fri01]{friedman2001}
+Friedman, J.~H. \enquote{Greedy function approximation: A gradient boosting
+  machine}, \textit{The Annals of Statistics}, \bblvol{}~29--5, 2001, \bblpp{}
+  1189--1232.
+\bibAnnoteFile{friedman2001}
+
+\bibitem[HH97]{hand&henley1997}
+Hand, D.~J.; Henley, W.~E. \enquote{Statistical classification methods in
+  consumer credit scoring: A review}, \textit{Journal of the Royal Statistical
+  Society: Series A (Statistics in Society)}, \bblvol{} 160--3, 1997, \bblpp{}
+  523--541.
+\bibAnnoteFile{hand&henley1997}
+
+\bibitem[KR13]{kimball&ross2013}
+Kimball, R.; Ross, M. \enquote{The Data Warehouse Toolkit: The Definitive Guide
+  to Dimensional Modeling}. Indianapolis, IN: Wiley, 2013, 3 \bbledn{},
+  564\bbleidpp{}.
+\bibAnnoteFile{kimball&ross2013}
+
+\bibitem[LL17]{lundberg&lee2017}
+Lundberg, S.~M.; Lee, S.-I. \enquote{A unified approach to interpreting model
+  predictions}. \capitalize{\bblin{}}: Proceedings of the 31st International
+  Conference on Neural Information Processing Systems, 2017, \bblpp{}
+  4768--4777.
+\bibAnnoteFile{lundberg&lee2017}
+
+\bibitem[Mer74]{merton1974}
+Merton, R.~C. \enquote{On the pricing of corporate debt: The risk structure of
+  interest rates}, \textit{The Journal of Finance}, \bblvol{}~29--2, 1974,
+  \bblpp{} 449--470.
+\bibAnnoteFile{merton1974}
+
+\bibitem[Sid06]{siddiqi2006}
+Siddiqi, N. \enquote{Credit Risk Scorecards: Developing and Implementing
+  Intelligent Credit Scoring}. Hoboken, NJ: Wiley, 2006, 208\bbleidpp{}.
+\bibAnnoteFile{siddiqi2006}
+
+\bibitem[TEC02]{thomasetal2002}
+Thomas, L.~C.; Edelman, D.~B.; Crook, J.~N. \enquote{Credit Scoring and Its
+  Applications}. Philadelphia, PA: Society for Industrial and Applied
+  Mathematics (SIAM), 2002, 368\bbleidpp{}.
+\bibAnnoteFile{thomasetal2002}
+
+\bibitem[Tur91]{turvey1991}
+Turvey, C.~G. \enquote{Credit scoring for agricultural loans: A review with
+  applications}, \textit{Agricultural Finance Review}, \bblvol{}~51--1, 1991,
+  \bblpp{} 43--54.
+\bibAnnoteFile{turvey1991}
+
+\end{thebibliography}

@@ -1,0 +1,89 @@
+\documentclass[oneside,12pt,a4paper]{report}
+\usepackage{babelbib}
+\usepackage{puconline}
+\selectlanguage{brazil}
+
+%----------------------------------------------------------------
+% Para inserção de figuras.
+\usepackage{graphicx}
+% Utilize a opção 'pdftex' se você estiver usando o pdflatex (que
+% permite figuras em formatos como .jpg ou .png)
+%\usepackage[pdftex]{graphicx}
+
+% Para tabelas com elementos ocupando mais de uma linha
+\usepackage{multirow}
+% Para frações na mesma linha (ex. ⅓).
+\usepackage{nicefrac}
+% Para inserir figuras lado a lado.
+% \usepackage{subfigure}
+% Para formatar algoritmos.
+% A opção [algo2e] é necessária para evitar conflitos
+% com as definições da classe.
+%\usepackage[algo2e]{algorithm2e}
+\usepackage{algorithmic}
+% Um float do tipo algoritmo. No momento
+% este pacote é incompatível com a classe.
+%\usepackage{algorithm}
+\usepackage{amssymb}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RE]{\leftmark}
+\fancyhead[LO]{\rightmark}
+\fancyfoot[RO,LE]{\thepage}
+\fancypagestyle{plain}{%  the preset of fancyhdr
+    \fancyhf{} % clear all header and footer fields
+    \fancyfoot[C]{\textbf{\thepage}} % except the center
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}}
+
+
+
+
+
+%
+
+
+\fancyhead[LEO]{
+\includegraphics[height=20mm]{fig/puc-online.png}
+}
+
+\fancyfoot[LEO]{
+\includegraphics[scale=0.24]{fig/rodape-puconline.png}
+}
+\definecolor{pucrs-dark-blue}{rgb}{0,0.4,0.7}
+\definecolor{pucrs-light-blue}{rgb}{0.43,0.81,0.96}
+\newcommand{\note}[1]{{\color{red} {#1}}}
+\definecolor{cadetblue}{rgb}{0.37, 0.62, 0.63}
+\fancypagestyle{plain}{}
+\newcommand{\bbleidpp}{}
+\begin{document}
+
+
+\begin{minipage}{16cm}
+\centering
+\begin{center}
+{\textbf{TEMPLATE PARA ENTREGA DO PROJETO DA DISCIPLINA}}\\
+{\textbf{Projeto em Business Intelligence e Analytics}}\\
+{Fase 1}
+\end{center}
+\end{minipage}
+\vspace{0.5cm}
+
+\colorbox{pucrs-dark-blue}{\textcolor{white}{\textbf{Nome do estudante: Victor Moraes Zucchetti}}}
+
+\include{secs/01-Intro}
+\include{secs/02-Referencial}
+\include{secs/03-Revisao}
+\include{secs/04-Plano}
+\include{secs/05-Conclusao}
+
+
+
+\bibliographystyle{formato-alpha}
+%\bibliographystyle{tcc-num}
+\bibliography{exemplo}
+
+
+\end{document}

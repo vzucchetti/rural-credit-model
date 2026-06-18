@@ -1,0 +1,22 @@
+paths:
+  duckdb: data/data.duckdb
+
+# mlflow:
+#   tracking_uri: ${MLFLOW_TRACKING_URI}
+#   experiment:   risco_credito_rural
+
+# modeling:
+#   target: inadimplente            # 0 = adimplente, 1 = inadimplente
+#   cv_group: safra                 # validação cruzada estratificada/agrupada por safra
+#   metrics: [auroc, ks, brier, pr_auc]
+#   random_state: 42
+
+object_storage:
+  enabled: true
+  endpoint_url: http://localhost:9000
+  region: us-east-1
+  secure: false
+  buckets:
+    bronze: "rcm-bronze"
+    silver: "rcm-silver"
+    gold: "rcm-gold"

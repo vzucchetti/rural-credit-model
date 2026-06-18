@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "rural-credit-model"
+version = "0.1.0"
+description = ""
+authors = ["Victor Zucchetti <victorzucchetti2@gmail.com>"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pandas = "^3.0.3"
+ipykernel = "^7.3.0"
+pyyaml = "^6.0.3"
+dotenv = "^0.9.9"
+minio = "^7.2.20"
+pre-commit = "^4.6.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
