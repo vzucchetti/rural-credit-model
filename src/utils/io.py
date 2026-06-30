@@ -1,9 +1,10 @@
-# %%
 from __future__ import annotations
 import os
+import tempfile
 import pathlib
 import yaml
 from dotenv import load_dotenv
+import duckdb
 
 
 load_dotenv()
@@ -25,40 +26,46 @@ def load_config(name: str = "settings") -> dict:
         return _expand(yaml.safe_load(fh))
 
 
-# def configure_duckdb_s3(con, cfg: dict | None = None):
-#     """Configura o DuckDB para ler/gravar Parquet no MinIO/S3 (read_parquet('s3://...'))."""
-#     cfg = cfg or load_config("settings")
-#     os_cfg = cfg.get("object_storage", {})
-#     if not os_cfg.get("enabled"):
-#         return con
-#     endpoint = (os_cfg.get("endpoint_url") or "").replace("http://", "").replace("https://", "")
-#     con.execute("INSTALL httpfs; LOAD httpfs;")
-#     con.execute("SET s3_url_style='path';")           # MinIO usa path-style
-#     con.execute(f"SET s3_endpoint='{endpoint}';")
-#     con.execute(f"SET s3_region='{os_cfg.get('region', 'us-east-1')}';")
-#     con.execute(f"SET s3_access_key_id='{os.getenv('AWS_ACCESS_KEY_ID', '')}';")
-#     con.execute(f"SET s3_secret_access_key='{os.getenv('AWS_SECRET_ACCESS_KEY', '')}';")
-#     con.execute(f"SET s3_use_ssl={'true' if os_cfg.get('use_ssl') else 'false'};")
-#     return con
+def duckdb_mem(
+    memory_limit: str | None = "8GB",
+    temp_dir: str | None = None,
+    threads: int | None = None,
+) -> duckdb.DuckDBPyConnection:
+    temp_dir = temp_dir or os.path.join(tempfile.gettempdir(), "duckdb_spill")
+    os.makedirs(temp_dir, exist_ok=True)
+    con = duckdb.connect()
+    con.execute(f"SET temp_directory='{temp_dir.replace(os.sep, '/')}'")
+    if memory_limit:
+        con.execute(f"SET memory_limit='{memory_limit}'")
+    if threads:
+        con.execute(f"SET threads={threads}")
+    con.execute("SET preserve_insertion_order=false")
+    return con
 
 
-# def duckdb_conn():
-#     import duckdb
-#     cfg = load_config("settings")
-#     con = duckdb.connect(cfg["paths"]["duckdb"])
-#     con.execute("INSTALL httpfs; LOAD httpfs;")
-#     configure_duckdb_s3(con, cfg)
-#     return con
-
-
-# def write_parquet(df, path: str, partition_cols=None):
-#     p = pathlib.Path(path)
-#     p.parent.mkdir(parents=True, exist_ok=True)
-#     try:
-#         import polars as pl
-#         if isinstance(df, pl.DataFrame):
-#             df.write_parquet(path)
-#             return
-#     except ImportError:
-#         pass
-#     df.to_parquet(path, index=False, partition_cols=partition_cols)
+def duckdb_s3(
+    cfg: dict | None = None,
+    memory_limit: str | None = "8GB",
+    threads: int | None = None,
+) -> duckdb.DuckDBPyConnection:
+    """Configura o DuckDB para ler/gravar Parquet no MinIO/S3 em memória"""
+    cfg = cfg or load_config("settings")
+    os_cfg = cfg.get("object_storage", {})
+    endpoint = (
+        (os_cfg.get("endpoint_url") or "")
+        .replace("http://", "")
+        .replace("https://", "")
+    )
+    con = duckdb_mem(
+        memory_limit=memory_limit,
+        temp_dir=cfg["paths"].get("duckdb_temp", None),
+        threads=threads,
+    )
+    con.execute("INSTALL httpfs; LOAD httpfs;")
+    con.execute("SET s3_url_style='path';")
+    con.execute(f"SET s3_endpoint='{endpoint}';")
+    con.execute(f"SET s3_region='{os_cfg.get('region', 'us-east-1')}';")
+    con.execute(f"SET s3_access_key_id='{os.getenv('MINIO_ROOT_USER', '')}';")
+    con.execute(f"SET s3_secret_access_key='{os.getenv('MINIO_ROOT_PASSWORD', '')}';")
+    con.execute(f"SET s3_use_ssl={'true' if os_cfg.get('secure') else 'false'};")
+    return con

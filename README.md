@@ -1,4 +1,6 @@
-Coletando dados a partir de 2015 por representar uma boa amostragem temporal e evitar as adaptação para anos em que os dados foram disponibilizados por semestre (2013, 2015)
+repositório desenvolvido utilizando o `poetry`. makefile configura a variável `PY` para rodar `poetry run python`. caso não queira ou não esteja utilizando o `poetry`, configure a variável para rodar somente com `python`.
+
+utilizando pre-commit com ruff e commitizen para revisão e documentação do repositório.
 
 Use o arquivo `.env.example` como exemplo para configuração das suas variáveis de ambiente em `.env`
 
@@ -11,6 +13,16 @@ Os pré-requisitos são estar com o MinIO no ar e o arquivo .env preenchido.
 
 
 src/utils
+**logging.py**:
+**io.py**:
+**orchestration.py**:
+**minio_client.py**:
 
 src/ingestion
-**base.py**: funções comum para ingestão de arquivos com requests ou por streaming
+**base.py**: funções comuns para ingestão de arquivos e armazenamento no MinIO
+**sicor.py**:
+**run_ingestion.py**:
+
+src/transform
+**sicor_treat.py**:
+**run_transform.py**:

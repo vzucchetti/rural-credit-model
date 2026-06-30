@@ -170,10 +170,7 @@ poetry.toml
 pyrightconfig.json
 
 # Data files
-data/bronze/
-data/silver/
-data/gold/
-*.duckdb
+.tmp
 mlruns/
 .dbt/
 dbt/target/

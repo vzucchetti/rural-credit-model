@@ -14,6 +14,20 @@ pyyaml = "^6.0.3"
 dotenv = "^0.9.9"
 minio = "^7.2.20"
 pre-commit = "^4.6.0"
+commitizen = "^4.16.3"
+httpx = "^0.28.1"
+duckdb = "^1.5.4"
+pyarrow = "^24.0.0"
+fsspec = "^2026.6.0"
+s3fs = "^2026.6.0"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_scheme = "pep440"
+version_provider = "poetry"
+update_changelog_on_bump = true
+major_version_zero = true
 
 [build-system]
 requires = ["poetry-core"]

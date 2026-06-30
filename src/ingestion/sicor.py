@@ -1,28 +1,26 @@
+# %%
 from datetime import datetime
 
 from src.ingestion.base import fetch_to_buffer
 from src.utils.logging import get_logger
 from src.utils.minio_client import get_client, upload_buffer
+from src.utils.orchestration import _freq_match
 
-
-log = get_logger("sicor")
+# %%
+log = get_logger("sicor_ingestion")
 
 
 def _basename(url: str) -> str:
     return url.split("?")[0].rstrip("/").split("/")[-1]
 
 
-def _freq_match(grp: dict, only_frequency: str | None) -> bool:
-    return only_frequency is None or grp.get("frequency") == only_frequency
-
-
 def _ingest_static(client, bucket, table, snapshot):
     url = table["url"]
     key = f"sicor/{table['name']}/ingest_month={snapshot}/{_basename(url)}"
-    buf = fetch_to_buffer(url)
-    if buf is None:
+    buffer = fetch_to_buffer(url)
+    if buffer is None:
         return
-    upload_buffer(client, bucket, key, buf)
+    upload_buffer(client, bucket, key, buffer, "application/gzip")
 
 
 def _ingest_temporal(client, bucket, table, start_year, current_year, snapshot):
@@ -38,10 +36,10 @@ def _ingest_temporal(client, bucket, table, start_year, current_year, snapshot):
             urls = [table["url"].format(year=year)]
         for url in urls:
             key = f"sicor/{table['name']}/year={year}/ingest_month={snapshot}/{_basename(url)}"
-            buf = fetch_to_buffer(url)
-            if buf is None:
+            buffer = fetch_to_buffer(url)
+            if buffer is None:
                 continue
-            upload_buffer(client, bucket, key, buf)
+            upload_buffer(client, bucket, key, buffer, "application/gzip")
 
 
 def ingest(cfg: dict, src: dict, only_frequency: str | None = None) -> None:

@@ -1,5 +1,5 @@
 paths:
-  duckdb: data/data.duckdb
+  duckdb_temp: ".tmp/duckdb_spill"
 
 # mlflow:
 #   tracking_uri: ${MLFLOW_TRACKING_URI}

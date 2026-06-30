@@ -1,3 +1,4 @@
+# %%
 from __future__ import annotations
 import argparse
 import importlib
@@ -5,8 +6,8 @@ import os
 from src.utils.io import load_config
 from src.utils.logging import get_logger
 
-
-log = get_logger("ingest")
+# %%
+log = get_logger("ingestion_all")
 
 
 def main(only_frequency: str | None = None):

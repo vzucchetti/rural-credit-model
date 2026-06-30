@@ -1,10 +1,9 @@
-"""Logger padrão do projeto."""
-
 import logging
 import sys
 
 
 def get_logger(name: str = "rcm") -> logging.Logger:
+    """Logger padrão do projeto."""
     log = logging.getLogger(name)
     if not log.handlers:
         h = logging.StreamHandler(sys.stdout)

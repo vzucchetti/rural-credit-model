@@ -1,9 +1,8 @@
-PY=python
-.PHONY: help sizing minio-up minio-init ingest ingest-sicor transform features train dashboard test lint
+PY=poetry run python
+.PHONY: help sizing minio-up minio-init ingest ingest-monthly ingest-semiannual features train dashboard test lint
 
 help:
-	@echo "Alvos: minio-up | minio-init"
-# | sizing | ingest | ingest-sicor | transform | features | train | dashboard | test"
+	@echo "Alvos: minio-up | minio-init | ingest | ingest-monthly | ingest-semiannual | transform | transform-monthly | transform-semiannual"
 
 minio-up:
 	docker compose up -d minio
@@ -11,17 +10,23 @@ minio-up:
 minio-init:
 	PYTHONPATH=. $(PY) scripts/minio_bootstrap.py
 
-# sizing:
-# 	$(PY) -m banri_agro.utils.sizing
+ingest:
+	PYTHONPATH=. $(PY) -m src.ingestion.run_ingestion
 
-# ingest:
-# 	$(PY) -m banri_agro.ingestion.run_all
+ingest-monthly:
+	PYTHONPATH=. $(PY) -m src.ingestion.run_ingestion --frequency monthly
 
-# ingest-sicor:
-# 	$(PY) -m banri_agro.ingestion.sicor
+ingest-semiannual:
+	PYTHONPATH=. $(PY) -m src.ingestion.run_ingestion --frequency semi-annual
 
-# transform:
-# 	cd dbt && dbt run && dbt test
+transform:
+	PYTHONPATH=. $(PY) -m src.transform.run_transform
+
+transform-monthly:
+	PYTHONPATH=. $(PY) -m src.transform.run_transform --frequency monthly
+
+transform-semiannual:
+	PYTHONPATH=. $(PY) -m src.transform.run_transform --frequency semi-annual
 
 # features:
 # 	$(PY) -m banri_agro.features.feature_engineering

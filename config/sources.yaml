@@ -1,7 +1,7 @@
-# Definição das fontes. URLs-base são as documentadas
+# Definição das fontes de dados a serem ingeridas
 
 sicor:
-  # Portal de Dados Abertos do Bacen — conjunto de microdados/matriz do crédito rural.
+  # Portal de Dados Abertos do SICOR/Bacen — conjunto de microdados/matriz do crédito rural
   enabled: true
   dominios:
     frequency: "semi-annual"
@@ -15,7 +15,8 @@ sicor:
         enabled: false
       - name: "categoria_emitente"
         url: https://www.bcb.gov.br/htms/sicor/CategoriaEmitente.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "categoria_produtos"
         url: https://www.bcb.gov.br/htms/sicor/CategoriaProduto.csv
         enabled: false
@@ -24,25 +25,30 @@ sicor:
         enabled: false
       - name: "empreendimento"
         url: https://www.bcb.gov.br/htms/sicor/Empreendimento.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "encargos_financeiros_complementares"
         url: https://www.bcb.gov.br/htms/sicor/EncargosFinanceirosComplementares.csv
         enabled: false
       - name: "evento_proagro"
         url: https://www.bcb.gov.br/htms/sicor/EventoProagro.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "fonte_recursos"
         url: https://www.bcb.gov.br/htms/sicor/FonteRecursos.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "ifs"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_LISTA_IFS.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "instancia_proagro"
         url: https://www.bcb.gov.br/htms/sicor/InstanciaProagro.csv
         enabled: false
       - name: "instrumento_credito"
         url: https://www.bcb.gov.br/htms/sicor/InstrumentoCredito.csv
-        enabled: false
+        # enabled: false
+        enabled: true
       - name: "modalidades_programa"
         url: https://www.bcb.gov.br/htms/sicor/ProgramaModalidade.csv
         enabled: false
@@ -78,43 +84,53 @@ sicor:
         enabled: false
       - name: "programa"
         url: https://www.bcb.gov.br/htms/sicor/Programa.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "tipo_agricultura"
         url: https://www.bcb.gov.br/htms/sicor/TipoAgropecuaria.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "tipo_integracao"
         url: https://www.bcb.gov.br/htms/sicor/TipoIntegracao.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "grao_semente"
         url: https://www.bcb.gov.br/htms/sicor/GraoSemente.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "tipo_irrigacao"
         url: https://www.bcb.gov.br/htms/sicor/TipoIrrigacao.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "tipo_cultivo"
         url: https://www.bcb.gov.br/htms/sicor/TipoCultivo.csv
         enabled: false
       - name: "fase_ciclo_producao"
         url: https://www.bcb.gov.br/htms/sicor/FaseCicloProducao.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "tipo_clima"
         url: https://www.bcb.gov.br/htms/sicor/TipoClima.csv
         enabled: false
       - name: "outra_praticas_manejo"
         url: https://www.bcb.gov.br/htms/sicor/OutrasPraticasManejo.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "sistema_producao_empreendimento"
         url: https://www.bcb.gov.br/htms/sicor/SistemaProducaoEmpreendimento.csv
         enabled: false
       - name: "situacao_operacao"
         url: https://www.bcb.gov.br/htms/sicor/SituacaoOperacao.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "status_cop_proagro"
         url: https://www.bcb.gov.br/htms/sicor/StatusCOPProagro.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "status_parcela_proagro"
         url: https://www.bcb.gov.br/htms/sicor/StatusParcelaProagro.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "subprogramas"
         url: https://www.bcb.gov.br/htms/sicor/Subprogramas.csv
         enabled: false
@@ -126,19 +142,22 @@ sicor:
         enabled: false
       - name: "tipo_beneficiario"
         url: https://www.bcb.gov.br/htms/sicor/tipoBeneficiario.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "tipo_bonus"
         url: https://www.bcb.gov.br/htms/sicor/TipoBonus.csv
         enabled: false
       - name: "tipo_conformidade"
         url: https://www.bcb.gov.br/htms/sicor/TipoConformidade.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "tipo_manejo"
         url: https://www.bcb.gov.br/content/estabilidadefinanceira/sicornoticias/TipoManejo.csv
         enabled: false
       - name: "tipo_seguro"
         url: https://www.bcb.gov.br/htms/sicor/TipoGarantiaEmpreendimento.csv
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "tipo_solo"
         url: https://www.bcb.gov.br/htms/sicor/TipoSoloProagro.csv
         enabled: false
@@ -150,7 +169,8 @@ sicor:
         enabled: false
       - name: "unidade_medida"
         url: https://www.bcb.gov.br/htms/sicor/UnidadeMedida.csv
-        enabled: true
+        # enabled: true
+        enabled: false
   operacionais:
     frequency: "monthly"
     # storage_strategy: "snapshot"
@@ -160,40 +180,51 @@ sicor:
         enabled: false
       - name: "parcelas_desembolso"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_PARCELAS_DESEMBOLSO.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "desclassificacao"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/sicor_desclassificacao.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "pedido_cobertura"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_COP_BASICO.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "parcelas_proagro"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_PARCELAS_PROAGRO.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "relatorio_perdas"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_RCP_BASICO.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "sumula_julgamento"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_SUMULA_JULGAMENTO.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "lista_renegociacao"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_LISTA_RENEGOCIACAO.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "operacao_renegociacao"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_OPERACAO_BASICA_RENEGOCIACAO.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "complemento_operacoes"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_COMPLEMENTO_OPERACAO_BASICA.gz
         enabled: false
       - name: "propriedades"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_PROPRIEDADES.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "mutuarios"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_MUTUARIOS.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "lista_cooperados"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_LISTA_COOPERADOS.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "complemento_pedido_cobertura"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_COMPLEMENTO_COP.gz
         enabled: false
@@ -208,7 +239,8 @@ sicor:
         enabled: false
       - name: "complemento_renegociacoes"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_COMPLEMENTO_OPERACAO_BASICA_RENEGOCIACAO.gz
-        enabled: true
+        # enabled: true
+        enabled: false
   temporais:
     frequency: "monthly"
     # storage_strategy: "snapshot"
@@ -216,10 +248,12 @@ sicor:
     tables:
       - name: "operacao_basica"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_OPERACAO_BASICA_ESTADO_{year}.gz
-        enabled: true
+        # enabled: true
+        enabled: false
       - name: "saldos"
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_SALDOS_{year}.gz
-        enabled: true
+        # enabled: true
+        enabled: false
         exceptions:
           url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/SICOR_SALDOS_{year}_{period}.gz
           years: ["2013","2014"]
@@ -228,9 +262,15 @@ sicor:
         url: https://www.bcb.gov.br/htms/sicor/DadosBrutos/sicor_glebas_wkt_{year}.gz
         enabled: false
 
-  # Chaves de junção entre tabelas (conforme documentação do conjunto):
-  # join_keys: [id_referencia_bacen, numero_ordem]
-  # pii_columns: [cpf_cnpj]
+# sicar:
+#   # Dados do Sistema Nacional de Cadastro Ambiental Rural
+#   enabled: false
+#   dominios:
+#     frequency: "semi-annual"
+#     url: https://consulta.car.gov.br/geoservices
+#     # storage_strategy: "snapshot"
+#     tables:
+
 
 # sgs_bacen:
 #   # API de séries temporais do Bacen (SGS).
