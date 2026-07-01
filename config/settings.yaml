@@ -1,5 +1,8 @@
 paths:
   duckdb_temp: ".tmp/duckdb_spill"
+  silver_sicor: 's3://rcm-silver/sicor/'
+  labels: 's3://rcm-gold/labels/'
+  features: 's3://rcm-gold/features/'
 
 # mlflow:
 #   tracking_uri: ${MLFLOW_TRACKING_URI}
@@ -20,3 +23,20 @@ object_storage:
     bronze: "rcm-bronze"
     silver: "rcm-silver"
     gold: "rcm-gold"
+
+labels:
+  horizon: 18
+  n_deltas: 24
+  def_situacoes: ['Inadimplente','Inscrita em Dívida Ativa da União','Baixada como Prejuízo']
+
+modeling:
+  base_uri: 's3://rcm-gold/modeling/base_modelagem.parquet'
+  runs_uri: 's3://rcm-gold/modeling/runs/'
+  features: null            # null = todas as do registry; ou lista de colunas desejadas
+  n_splits: 5
+  random_state: 42
+  naive_segment: 'uf'
+  max_categories: 30
+  max_null_frac: 0.95
+  safra_cutoff_month: 7
+  min_train_safras: 1

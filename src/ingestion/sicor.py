@@ -6,7 +6,7 @@ from src.utils.logging import get_logger
 from src.utils.minio_client import get_client, upload_buffer
 from src.utils.orchestration import _freq_match
 
-# %%
+
 log = get_logger("sicor_ingestion")
 
 

@@ -11,25 +11,6 @@ from src.utils.logging import get_logger
 log = get_logger("storage")
 
 
-def _get_envs(cfg: dict | None = None) -> dict:
-    cfg = cfg or load_config("settings")
-    os_cfg = cfg["object_storage"]
-    endpoint = os_cfg.get("endpoint_url", "http://localhost:9000")
-    access_key = os.getenv("MINIO_ROOT_USER")
-    secret_key = os.getenv("MINIO_ROOT_PASSWORD")
-    region = os_cfg.get("region", "us-east-1")
-    secure = bool(os_cfg.get("secure", False))
-    return {
-        "endpoint_url": endpoint,
-        "key": access_key,
-        "secret": secret_key,
-        "client_kwargs": {
-            "region_name": region,
-            "use_ssl": secure,
-        },
-    }
-
-
 def get_client(cfg: dict | None = None) -> Minio:
     cfg = cfg or load_config("settings")
     os_cfg = cfg["object_storage"]

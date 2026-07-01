@@ -28,14 +28,23 @@ transform-monthly:
 transform-semiannual:
 	PYTHONPATH=. $(PY) -m src.transform.run_transform --frequency semi-annual
 
-# features:
-# 	$(PY) -m banri_agro.features.feature_engineering
+labels:
+	PYTHONPATH=. $(PY) -m src.features.run_labels
 
-# train:
-# 	$(PY) -m banri_agro.models.train
+features:
+	PYTHONPATH=. $(PY) -m src.features.run_features
 
-# dashboard:
-# 	streamlit run dashboards/streamlit_app.py
+consolidate:
+	PYTHONPATH=. $(PY) -m src.modeling.run_model --no-train
+
+train:
+	PYTHONPATH=. $(PY) -m src.modeling.run_model
+
+train-temporal:
+	PYTHONPATH=. $(PY) -m src.modeling.train_temporal
+
+dashboard:
+	PYTHONPATH=. $(PY) -m streamlit run app/dashboard.py
 
 # test:
 # 	pytest -q

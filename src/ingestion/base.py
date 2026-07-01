@@ -43,10 +43,3 @@ def fetch_to_buffer(
         log.error("Erro inesperado ao baixar %s: %s", url, e)
         buf.close()
         raise
-
-
-# def http_get_json(url: str, params: dict | None = None, timeout: int = 60):
-#     log.info("GET %s params=%s", url, params)
-#     r = requests.get(url, params=params, timeout=timeout)
-#     r.raise_for_status()
-#     return r.json()
