@@ -1,8 +1,8 @@
 PY=poetry run python
-.PHONY: help sizing minio-up minio-init ingest ingest-monthly ingest-semiannual features train dashboard test lint
+.PHONY: help sizing minio-up minio-init ingest ingest-monthly ingest-semiannual transform transform-monthly transform-semiannual labels features consolidate train dashboard
 
 help:
-	@echo "Alvos: minio-up | minio-init | ingest | ingest-monthly | ingest-semiannual | transform | transform-monthly | transform-semiannual"
+	@echo "Alvos: minio-up | minio-init | ingest | ingest-monthly | ingest-semiannual | transform | transform-monthly | transform-semiannual | labels | features | consolidate | train | dashboard"
 
 minio-up:
 	docker compose up -d minio

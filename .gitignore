@@ -176,3 +176,4 @@ mlruns/
 dbt/target/
 dbt/logs/
 .ipynb_checkpoints/
+notebooks/

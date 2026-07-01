@@ -29,11 +29,11 @@ log = get_logger("modeling")
 def _safra_map(cfg: dict):
     """(ref_bacen, nu_ordem) -> safra (ano-safra pelo mês de corte, padrão julho)."""
     cut = cfg["modeling"].get("safra_cutoff_month", 7)
-    inpath = cfg["paths_uris"]["silver_uri"]
+    inpath = cfg["paths"]["silver_sicor"]
     db = duckdb_s3(cfg)
     return db.execute(f"""
         SELECT ob."#REF_BACEN" AS ref_bacen, ob."NU_ORDEM" AS nu_ordem,
-               year(ob.DT_EMISSAO) - (month(ob.DT_EMISSAO) < {cut}) AS safra
+               year(ob.DT_EMISSAO) - CAST(month(ob.DT_EMISSAO) < {cut} AS INTEGER) AS safra
         FROM read_parquet('{inpath}operacao_basica.parquet') AS ob
     """).fetchdf()
 

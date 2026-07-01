@@ -29,7 +29,7 @@ def load_config(name: str = "settings") -> dict:
 def duckdb_mem(
     memory_limit: str | None = "12GB",
     temp_dir: str | None = None,
-    threads: int | None = 4,
+    threads: int | None = 2,
 ) -> duckdb.DuckDBPyConnection:
     temp_dir = temp_dir or os.path.join(tempfile.gettempdir(), "duckdb_spill")
     os.makedirs(temp_dir, exist_ok=True)
@@ -46,7 +46,7 @@ def duckdb_mem(
 def duckdb_s3(
     cfg: dict | None = None,
     memory_limit: str | None = "12GB",
-    threads: int | None = 4,
+    threads: int | None = 2,
 ) -> duckdb.DuckDBPyConnection:
     """Configura o DuckDB para ler/gravar Parquet no MinIO/S3 em memória"""
     cfg = cfg or load_config("settings")

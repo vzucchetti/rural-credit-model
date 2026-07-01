@@ -35,6 +35,8 @@ modeling:
   features: null            # null = todas as do registry; ou lista de colunas desejadas
   n_splits: 5
   random_state: 42
+  max_rows: 4000000
+  sample_state: 42
   naive_segment: 'uf'
   max_categories: 30
   max_null_frac: 0.95
