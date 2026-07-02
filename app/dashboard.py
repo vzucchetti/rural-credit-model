@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 from src.utils.io import load_config
 from src.modeling.run_storage import load_runs
+from app.business_data import load_aggregates, load_vintage, DIMS
 
 st.set_page_config(page_title="Monitor — Risco de Crédito Rural", layout="wide")
 st.title("Acompanhamento dos Modelos de Risco de Crédito")
@@ -12,9 +13,7 @@ st.title("Acompanhamento dos Modelos de Risco de Crédito")
 cfg = load_config("settings")
 runs = load_runs(cfg)
 if not runs:
-    st.warning(
-        "Nenhuma run encontrada. Rode o treino (src.modeling.run_modeling) primeiro."
-    )
+    st.warning("Nenhuma run encontrada. Rode o treino primeiro.")
     st.stop()
 
 kfold_runs = [r for r in runs if r.get("validation", "kfold") == "kfold"]
@@ -95,7 +94,19 @@ def show_curves(entries, key):
         st.info("Sem dados de curva KS.")
 
 
-tab_kf, tab_oot = st.tabs(["Validação k-fold", "Out-of-time (por safra)"])
+@st.cache_data(show_spinner="Agregando concessões e inadimplência...")
+def _biz_aggregates():
+    return load_aggregates(load_config("settings"))
+
+
+@st.cache_data(show_spinner="Calculando curva de safra...")
+def _biz_vintage():
+    return load_vintage(load_config("settings"))
+
+
+tab_biz, tab_kf, tab_oot = st.tabs(
+    ["Métricas de negócio", "Validação k-fold", "Out-of-time (por safra)"]
+)
 
 # ==================== K-FOLD ====================
 with tab_kf:
@@ -232,6 +243,98 @@ with tab_oot:
                 )
         st.subheader(f"Curvas — safra {safra_sel}")
         show_curves(entries, key="oot")
+
+
+# ==================== MÉTRICAS DE NEGÓCIO ====================
+with tab_biz:
+    ct, cb = st.columns([4, 1])
+    ct.subheader("Volume de crédito e inadimplência por dimensão")
+    if cb.button("🔄 Recarregar", key="biz_reload"):
+        _biz_aggregates.clear()
+        _biz_vintage.clear()
+        st.rerun()
+    try:
+        aggs = _biz_aggregates()
+        erro_biz = None
+    except Exception as e:  # noqa: BLE001
+        aggs, erro_biz = None, e
+    if erro_biz is not None:
+        st.error(f"Não foi possível agregar as métricas de negócio: {erro_biz}")
+    else:
+        dim = st.selectbox("Dimensão", DIMS, key="biz_dim")
+        d = aggs[dim].copy()
+        topn = len(d) if dim == "safra" else min(20, len(d))
+        if dim != "safra":
+            d = d.head(topn)
+        cats = d["categoria"].astype(str).tolist()
+        has_vol = "volume" in d.columns
+
+        if has_vol:
+            bar_vals = d["volume"].astype(float) / 1e6
+            bar_label = "volume de crédito (R$ milhões)"
+            titulo = "Volume de crédito (barras) e inadimplência (linha)"
+        else:
+            bar_vals = d["concessoes"].astype(float)
+            bar_label = "concessões (operações)"
+            titulo = "Concessões (barras) e inadimplência (linha)"
+
+        fig, ax1 = plt.subplots(figsize=(9, 4))
+        ax1.bar(cats, bar_vals, color="#4C78A8", alpha=0.85)
+        ax1.set_ylabel(bar_label, color="#4C78A8")
+        ax1.tick_params(axis="x", rotation=60, labelsize=8)
+        ax2 = ax1.twinx()
+        ax2.plot(cats, d["taxa"] * 100, "o-", color="#E45756", lw=2)
+        ax2.set_ylabel("inadimplência por operação (%)", color="#E45756")
+        ax1.set_title(
+            f"{titulo} por {dim}"
+            + ("" if dim == "safra" else f" — top {topn} por volume")
+        )
+        fig.tight_layout()
+        st.pyplot(fig)
+        plt.close(fig)
+
+        show = ["categoria", "concessoes", "inadimplentes", "taxa"]
+        tbl = d.copy()
+        if has_vol:
+            tbl["volume_mm"] = (tbl["volume"].astype(float) / 1e6).round(2)
+            show.insert(1, "volume_mm")
+        tbl["taxa"] = (tbl["taxa"] * 100).round(2)
+        st.dataframe(
+            tbl[show].rename(columns={"taxa": "taxa_pct"}), use_container_width=True
+        )
+
+        if dim == "safra":
+            st.subheader("Curva de safra — inadimplência acumulada por delta")
+            try:
+                v = _biz_vintage()
+                deltas = [c for c in v.columns if c != "safra"]
+                fig, ax = plt.subplots(figsize=(9, 4))
+                for _, row in v.iterrows():
+                    ax.plot(
+                        [int(x) for x in deltas],
+                        [row[c] * 100 for c in deltas],
+                        marker=".",
+                        label=str(int(row["safra"])),
+                    )
+                ax.set_xlabel("meses após emissão (delta)")
+                ax.set_ylabel("inadimplência acumulada (%)")
+                ax.legend(title="safra", fontsize=7, ncol=2)
+                fig.tight_layout()
+                st.pyplot(fig)
+                plt.close(fig)
+                st.caption(
+                    "Cada linha é uma safra; a curva mostra como a inadimplência amadurece "
+                    "ao longo dos meses. Safras recentes têm curva mais curta/parcial "
+                    "(censura à direita) — leia o fim delas com ressalva."
+                )
+            except Exception as e:  # noqa: BLE001
+                st.info(f"Curva de safra indisponível: {e}")
+
+        st.caption(
+            "Grão: operação (ref_bacen+nu_ordem); inadimplência = operação com algum "
+            "tomador inadimplente em 18m. Barras = volume de crédito tomado nas operações "
+            "(coluna modeling.valor_credito_col). Métricas sobre a base completa (sem amostragem)."
+        )
 
 st.caption(
     "k-fold: estratificada por target e agrupada por mutuário (sem vazamento de tomador). "
